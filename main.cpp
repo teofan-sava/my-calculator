@@ -3,14 +3,13 @@
 //
 
 #include <QApplication>
-#include <QPushButton>
+#include "Calculator.h"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    QPushButton button("Hello, Qt World!");
-    button.resize(300, 100);
-    button.show();
+    Calculator calc;
+    calc.show();
 
     return QApplication::exec();
 }
