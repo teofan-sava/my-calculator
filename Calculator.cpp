@@ -18,7 +18,7 @@ Calculator::Calculator(QWidget *parent) : QWidget(parent) {
         {"7", "8", "9", "/", "%"},
         {"4", "5", "6", "*", " "},
         {"1", "2", "3", "-", " "},
-        {"0", "C", "=", "+", " "}
+        {"0", ".", "=", "+", "C"}
     };
 
     for (int row = 0; row < 4; ++row) {
@@ -58,6 +58,18 @@ QPushButton* Calculator::createButton(const QString &text, const char *slot) con
 void Calculator::numberPressed() {
     const auto *buttonPressed = qobject_cast<QPushButton *>(sender());
     const QString buttonValue = buttonPressed->text();
+
+    if (buttonValue == ".") {
+        if (startNewNumber) {
+            screen->setText("0.");
+            startNewNumber = false;
+            return;
+        }
+
+        if (screen->text().contains(".")) {
+            return;
+        }
+    }
 
     if (screen->text() == "0" || startNewNumber) {
         screen->setText(buttonValue);
