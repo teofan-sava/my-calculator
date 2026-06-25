@@ -22,7 +22,7 @@ private slots:
     void operatorPressed();
     void equalPressed();
     void deleteAll();
-    void sinPressed();
+    void functionPressed();
 
 private:
     QLineEdit *screen;
@@ -36,6 +36,7 @@ private:
     static double divide(double a, double b);
     static int modulo(int a, int b);
     static double sine(double a);
+    static double cosine(double a);
 
     QPushButton* createButton(const QString &text, const char *slot) const;
 };
