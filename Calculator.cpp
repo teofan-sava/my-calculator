@@ -2,9 +2,9 @@
 // Created by teofan on 6/24/26.
 //
 
-#include "Calculator.h"
 #include <QGridLayout>
 #include <QVBoxLayout>
+#include "Calculator.h"
 
 Calculator::Calculator(QWidget *parent) : QWidget(parent) {
     screen = new QLineEdit("0");
@@ -40,9 +40,9 @@ Calculator::Calculator(QWidget *parent) : QWidget(parent) {
         }
     }
 
-    auto *layoutPrincipal = new QVBoxLayout(this);
-    layoutPrincipal->addWidget(screen);
-    layoutPrincipal->addLayout(layoutButtons);
+    auto *mainLayout = new QVBoxLayout(this);
+    mainLayout->addWidget(screen);
+    mainLayout->addLayout(layoutButtons);
 
     setWindowTitle("Calculator C++");
     resize(250, 300);
