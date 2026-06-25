@@ -4,6 +4,7 @@
 
 #include <QGridLayout>
 #include <QVBoxLayout>
+#include <cmath>
 #include "Calculator.h"
 
 Calculator::Calculator(QWidget *parent) : QWidget(parent) {
@@ -16,7 +17,7 @@ Calculator::Calculator(QWidget *parent) : QWidget(parent) {
 
     const QString tags[4][5] = {
         {"7", "8", "9", "/", "%"},
-        {"4", "5", "6", "*", " "},
+        {"4", "5", "6", "*", "sin"},
         {"1", "2", "3", "-", " "},
         {"0", ".", "=", "+", "C"}
     };
@@ -24,19 +25,22 @@ Calculator::Calculator(QWidget *parent) : QWidget(parent) {
     for (int row = 0; row < 4; ++row) {
         for (int column = 0; column < 5; ++column) {
             QString text = tags[row][column];
-            QPushButton *buton;
+            QPushButton *button;
 
             if (text == "C") {
-                buton = createButton(text, SLOT(deleteAll()));
+                button = createButton(text, SLOT(deleteAll()));
             } else if (text == "=") {
-                buton = createButton(text, SLOT(equalPressed()));
-            } else if (text == "+" || text == "-" || text == "*" || text == "/" || text == "%") {
-                buton = createButton(text, SLOT(operatorPressed()));
+                button = createButton(text, SLOT(equalPressed()));
+            } else if (text == "sin") {
+                button = createButton(text, SLOT(sinPressed()));
+            }
+            else if (text == "+" || text == "-" || text == "*" || text == "/" || text == "%") {
+                button = createButton(text, SLOT(operatorPressed()));
             } else {
-                buton = createButton(text, SLOT(numberPressed()));
+                button = createButton(text, SLOT(numberPressed()));
             }
 
-            layoutButtons->addWidget(buton, row, column);
+            layoutButtons->addWidget(button, row, column);
         }
     }
 
@@ -53,6 +57,13 @@ QPushButton* Calculator::createButton(const QString &text, const char *slot) con
     button->setMinimumSize(40, 40);
     connect(button, SIGNAL(clicked()), this, slot);
     return button;
+}
+
+void Calculator::sinPressed() {
+    const double currentValue = screen->text().toDouble();
+    const double result = sine(currentValue);
+    screen->setText(QString::number(result));
+    startNewNumber = true;
 }
 
 void Calculator::numberPressed() {
@@ -143,4 +154,25 @@ double Calculator::divide(const double a, const double b) {
 
 int Calculator::modulo(const int a, const int b) {
     return a % b;
+}
+
+double Calculator::sine(const double a) {
+    double sum = 0.0;
+    double rad = a * (M_PI / 180.0);
+
+    rad = fmod(rad, 2.0 * M_PI);
+    if (rad > M_PI) rad -= 2.0 * M_PI;
+    if ( rad < M_PI) rad += 2.0 * M_PI;
+
+    double number = rad;
+    int n = 1;
+
+    while (n < 10) {
+        sum = sum + number;
+        number = -number * (rad * rad) / (2 * n * (2 * n + 1));
+
+        n++;
+    }
+
+    return sum;
 }
