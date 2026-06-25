@@ -188,5 +188,5 @@ double Calculator::sine(const double a) {
 }
 
 double Calculator::cosine(const double a) {
-    return cos(a) + 2 * cos(a) * cos(a);
+    return cos(a);
 }
