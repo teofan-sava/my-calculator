@@ -1,7 +1,8 @@
-#!/bin/bash
+#!/bin/env bash
 
-# shellcheck disable=SC2164
-mkdir -p build && cd build
+mkdir -p build && cd build || exit
+
+rm -f CMakeCache.txt
 
 cmake ..
 cmake --build .
